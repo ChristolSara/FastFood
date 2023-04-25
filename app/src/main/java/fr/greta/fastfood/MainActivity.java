@@ -1,87 +1,89 @@
 package fr.greta.fastfood;
 
-
-import android.annotation.SuppressLint;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
+
+
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Arrays;
 import java.util.List;
-
 
 import fr.greta.fastfood.adapters.RestaurantListAdapter;
 import fr.greta.fastfood.model.Restaurant;
 
-public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAdapter.MyViewHolder> {
-
-    private List<Restaurant> restaurantList;
-    private RestaurantListClickListener clickListener;
-
-    public RestaurantListAdapter(List<Restaurant> restaurantList, RestaurantListClickListener clickListener) {
-        this.restaurantList = restaurantList;
-        this.clickListener = clickListener;
-    }
-
-    public void updateData(List<Restaurant> restaurantList) {
-        this.restaurantList = restaurantList;
-        notifyDataSetChanged();
-    }
-
-    @NonNull
-    @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view  = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_raw parent, false);
-        return  new MyViewHolder(view);
-    }
+public class MainActivity extends AppCompatActivity implements  RestaurantListAdapter.RestaurantListClickListener{
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.restaurantName.setText(restaurantList.get(position).getName());
-        holder.restaurantAddress.setText("Address: "+ restaurantList.get(position).getAddress());
-        holder.restaurantHours.setText("Today's hours: " + restaurantList.get(position).getHours());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickListener.onItemClick(restaurantList.get(position));
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+       // ActionBar actionBar = getSupportActionBar();
+       // actionBar.setTitle("Restautrants list");
+        //get the restaurant list from the json
+        List<Restaurant> restaurantList = getRestaurantData();
+        //injevtion first view
+         initRecyclerView(restaurantList);
+
+    }
+
+
+    private List<Restaurant> getRestaurantData() {
+        //lis le json
+        InputStream is = getResources().openRawResource(R.raw.restaurant);
+
+        Writer writer = new StringWriter();
+        char[] buffer = new char[1024];
+        try {
+            Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            int n;
+            // injecte dans le tableau
+            while ((n = reader.read(buffer)) != -1) {
+                writer.write(buffer, 0, n);
             }
-        });
-
-
-        Glide.with(holder.thumbImage)
-                .load(restaurantList.get(position).getImage())
-                .into(holder.thumbImage);
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return restaurantList.size();
-    }
-
-    static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView restaurantName;
-        TextView  restaurantAddress;
-        TextView  restaurantHours;
-        ImageView thumbImage;
-
-        public MyViewHolder(View view) {
-            super(view);
-            restaurantName = view.findViewById(R.id.restaurantName);
-            restaurantAddress = view.findViewById(R.id.restaurantAddress);
-            restaurantHours = view.findViewById(R.id.restaurantHours);
-            thumbImage = view.findViewById(R.id.thumbImage);
+        } catch (Exception e) {
 
         }
+
+        String jsonStr = writer.toString();
+        Gson gson = new Gson();
+        Restaurant[] restaurants = gson.fromJson(jsonStr, Restaurant[].class);
+        List<Restaurant> restList = Arrays.asList(restaurants);
+
+        return restList;
     }
 
-    public interface RestaurantListClickListener {
-        public void onItemClick(Restaurant restaurant);
+    private void initRecyclerView(List<Restaurant> restaurantList){
+        RecyclerView recyclerView=findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RestaurantListAdapter adapter = new RestaurantListAdapter(restaurantList,this);
+        recyclerView.setAdapter(adapter);
     }
-}
+
+    @Override
+    public void onItemClick(Restaurant restaurant){
+        Intent intent = new Intent(MainActivity.this , RestaurantListAdapter.class);
+        intent.putExtra("restaurant", (Parcelable) restaurant);
+        startActivity(intent);
+
+    }
+
+
+
+
+
+
+    }

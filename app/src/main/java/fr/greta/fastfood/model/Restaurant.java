@@ -2,6 +2,8 @@ package fr.greta.fastfood.model;
 
 
 
+import android.net.Uri;
+
 import java.util.List;
 
 public class Restaurant {

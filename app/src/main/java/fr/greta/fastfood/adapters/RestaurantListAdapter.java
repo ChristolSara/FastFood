@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -47,12 +47,13 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
         holder.restaurantHours.setText("Today's hours: " + restaurantList.get(position).getHours());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 clickListener.onItemClick(restaurantList.get(position));
             }
         });
-
-
+        Glide.with(holder.thumbImage)
+                .load(restaurantList.get(position).getImage())
+                .into(holder.thumbImage);
 
     }
 

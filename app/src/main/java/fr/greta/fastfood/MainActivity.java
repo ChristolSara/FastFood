@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements  RestaurantListAd
        // actionBar.setTitle("Restautrants list");
         //get the restaurant list from the json
         List<Restaurant> restaurantList = getRestaurantData();
-        //injevtion first view
+        //injection first view
          initRecyclerView(restaurantList);
 
     }

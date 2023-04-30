@@ -47,7 +47,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
         holder.restaurantHours.setText("Today's hours: " + restaurantList.get(position).getHours());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 clickListener.onItemClick(restaurantList.get(position));
             }
         });
@@ -80,5 +80,6 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
 
     public interface RestaurantListClickListener {
         public void onItemClick(Restaurant restaurant);
+
     }
 }

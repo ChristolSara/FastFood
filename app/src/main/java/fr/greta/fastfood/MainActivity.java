@@ -1,5 +1,6 @@
 package fr.greta.fastfood;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,8 +32,8 @@ public class MainActivity extends AppCompatActivity implements  RestaurantListAd
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       // ActionBar actionBar = getSupportActionBar();
-       // actionBar.setTitle("Restautrants list");
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Restautrants list");
         //get the restaurant list from the json
         List<Restaurant> restaurantList = getRestaurantData();
         //injection first view
@@ -75,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements  RestaurantListAd
 
     @Override
     public void onItemClick(Restaurant restaurant){
-        Intent intent = new Intent(MainActivity.this , RestaurantListAdapter.class);
-        intent.putExtra("restaurant", (Parcelable) restaurant);
+        Intent intent = new Intent(MainActivity.this , Menu_Activity.class);
+        intent.putExtra("restaurant", restaurant);
         startActivity(intent);
 
     }

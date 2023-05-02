@@ -48,10 +48,10 @@ public class Menu_Activity extends AppCompatActivity  implements  MenuListAdapte
 
     @Override
     public void onItemClick(Menu menu) {
-       /* Intent intent = new Intent( Menu_Activity.class);
-        intent.putExtra("restaurant", restaurant);
-        startActivity(intent);
-*/
+       /* Intent intent = new Intent( Menu_Activity.this,Splash_Activity.class);
+        intent.putExtra("Menu", menu);
+        startActivity(intent);*/
+
     }
 
     @Override

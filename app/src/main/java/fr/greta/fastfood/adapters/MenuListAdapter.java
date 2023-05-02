@@ -40,10 +40,16 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyVHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyVHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull MyVHolder holder, int position) {
 
         holder.menuName.setText(menuList.get(position).getName());
         holder.menuPrice.setText("Price: "+ menuList.get(position).getPrice());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onItemClick(menuList.get(position));
+            }
+        });
         holder.addToCartButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -74,10 +80,9 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyVHol
             }
         }));
 
-        Glide.with(holder.menuImage)
+        Glide.with(holder.thumbImage)
                 .load(menuList.get(position).getUrl())
-                .into(holder.menuImage);
-
+                .into(holder.thumbImage);
     }
 
 
@@ -86,36 +91,38 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyVHol
         return menuList.size();
     }
 //interface holder
-    static class MyVHolder  extends RecyclerView.ViewHolder{
-        TextView menuName;
-        TextView  menuPrice;
-        ImageView menuImage;
-        TextView addToCartButton;
-        ImageView imageMinus;
-        ImageView imageAddOne;
-        TextView  tvCount;
-        LinearLayout addMoreLayout;
+    static class MyVHolder  extends RecyclerView.ViewHolder {
+    TextView menuName;
+    TextView menuPrice;
+    ImageView thumbImage;
+    TextView addToCartButton;
+    ImageView imageMinus;
+    ImageView imageAddOne;
+    TextView tvCount;
+    LinearLayout addMoreLayout;
 
 
-        public MyVHolder(View view) {
-            super(view);
-            this.menuName = view.findViewById(R.id.menuName);
-            this.menuPrice =view.findViewById(R.id.menuPrice);
-            this.menuImage = view.findViewById(R.id.menuImage);
-            this.addMoreLayout = view.findViewById(R.id.addMoreLayout);
-            this.addToCartButton = view.findViewById(R.id.thumbImage);
-            this.tvCount = view.findViewById(R.id.tvCount);
-            this.imageAddOne = view.findViewById(R.id.imageAddOne);
-            this.imageMinus = view.findViewById(R.id.imageMinus);
+    public MyVHolder(View view) {
+        super(view);
+        menuName = view.findViewById(R.id.menuName);
+        menuPrice = view.findViewById(R.id.menuPrice);
+        addToCartButton = view.findViewById(R.id.addToCartButton);
+        thumbImage = view.findViewById(R.id.thumbImage);
+        imageMinus = view.findViewById(R.id.imageMinus);
+        imageAddOne = view.findViewById(R.id.imageAddOne);
+        tvCount = view.findViewById(R.id.tvCount);
 
+        addMoreLayout = view.findViewById(R.id.addMoreLayout);
+    }}
 
-        }
-    }
     public interface MenuListClickListener {
         public void onItemClick(Menu menu);
+
         public void onUpdateCartClick(Menu menu);
+
         public void onRemoveFormCartClick(Menu menu);
 
-      public    void onAddToCartClick(Menu menu);
+        public void onAddToCartClick(Menu menu);
     }
+
 }

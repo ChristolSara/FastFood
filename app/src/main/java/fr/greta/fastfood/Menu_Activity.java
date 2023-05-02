@@ -17,24 +17,19 @@ import fr.greta.fastfood.model.Restaurant;
 
 public class Menu_Activity extends AppCompatActivity  implements  MenuListAdapter.MenuListClickListener {
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_activity);
 
-
-
+        //recover the object of the previous activity
         Intent intent =getIntent();
         Restaurant restaurant = intent.getParcelableExtra("restaurant");
 
-
+       //creation of the action bar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(restaurant.getName());
         actionBar.setSubtitle(restaurant.getAddress());
-
 
         //injection first view
         List<Menu> menuList = restaurant.getMenus();
@@ -58,4 +53,19 @@ public class Menu_Activity extends AppCompatActivity  implements  MenuListAdapte
         startActivity(intent);
 */
     }
+
+    @Override
+    public void onUpdateCartClick(Menu menu) {
+
+    }
+    @Override
+    public void onRemoveFormCartClick(Menu menu) {
+
+    }
+    @Override
+    public void onAddToCartClick(Menu menu) {
+
+    }
+
+
 }

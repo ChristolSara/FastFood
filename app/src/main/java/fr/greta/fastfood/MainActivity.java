@@ -12,7 +12,6 @@ import android.os.Parcelable;
 
 
 import com.google.gson.Gson;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements  RestaurantListAd
 
 
     private List<Restaurant> getRestaurantData() {
-        //lis le json
+        //read the json
         InputStream is = getResources().openRawResource(R.raw.restaurant);
 
         Writer writer = new StringWriter();
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements  RestaurantListAd
         try {
             Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             int n;
-            // injecte dans le tableau
+            // injecte in the array
             while ((n = reader.read(buffer)) != -1) {
                 writer.write(buffer, 0, n);
             }

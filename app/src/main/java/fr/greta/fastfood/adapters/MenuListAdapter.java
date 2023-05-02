@@ -79,6 +79,24 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyVHol
                 }
             }
         }));
+        holder.imageAddOne.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Menu menu = menuList.get(position);
+                int total = menu.getTotalInCards();
+                total++;
+                if(total > 0){
+                    menu.setTotalInCards(total);
+                    clickListener.onUpdateCartClick((menu));
+                    holder.tvCount.setText(total  + "");
+                }else{
+                    holder.addMoreLayout.setVisibility((View.GONE));
+                    holder.addToCartButton.setVisibility(View.VISIBLE);
+                    menu.setTotalInCards(total);
+                    clickListener.onRemoveFormCartClick(menu);
+                }
+            }
+        }));
 
         Glide.with(holder.thumbImage)
                 .load(menuList.get(position).getUrl())

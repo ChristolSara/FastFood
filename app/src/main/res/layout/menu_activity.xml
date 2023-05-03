@@ -18,5 +18,17 @@
         android:paddingBottom="70dp"
         />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="256dp"
+        android:layout_height="81dp"
+        android:text="Button"
+        android:background="@drawable/button_bg"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/menuView" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

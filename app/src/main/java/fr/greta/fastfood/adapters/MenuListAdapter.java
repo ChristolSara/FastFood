@@ -44,12 +44,6 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyVHol
 
         holder.menuName.setText(menuList.get(position).getName());
         holder.menuPrice.setText("Price: "+ menuList.get(position).getPrice());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickListener.onItemClick(menuList.get(position));
-            }
-        });
         holder.addToCartButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -85,7 +79,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyVHol
                 Menu menu = menuList.get(position);
                 int total = menu.getTotalInCards();
                 total++;
-                if(total > 0){
+                if(total <= 10){
                     menu.setTotalInCards(total);
                     clickListener.onUpdateCartClick((menu));
                     holder.tvCount.setText(total  + "");
@@ -134,7 +128,6 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyVHol
     }}
 
     public interface MenuListClickListener {
-        public void onItemClick(Menu menu);
 
         public void onUpdateCartClick(Menu menu);
 

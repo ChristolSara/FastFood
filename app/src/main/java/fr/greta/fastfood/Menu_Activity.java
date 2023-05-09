@@ -23,8 +23,8 @@ import fr.greta.fastfood.model.Menu;
 import fr.greta.fastfood.model.Restaurant;
 
 public class Menu_Activity extends AppCompatActivity  implements  MenuListAdapter.MenuListClickListener {
-    private List<Menu> menuList;
-    private MenuListAdapter menuListAdapter;
+    private List<Menu> menuList = null;
+    private MenuListAdapter adapter1;
     private List<Menu> itemsInCardsList;
     private int totalItemsInCart = 0 ;
     private TextView buttonCheckout ;
@@ -46,8 +46,8 @@ public class Menu_Activity extends AppCompatActivity  implements  MenuListAdapte
         actionBar.setSubtitle(restaurant.getAddress());
 
         //injection first view
-        List<Menu> menuList = restaurant.getMenus();
-        initRecyclerView(menuList);
+         menuList = restaurant.getMenus();
+        initRecyclerView();
 
 
 
@@ -71,10 +71,10 @@ public class Menu_Activity extends AppCompatActivity  implements  MenuListAdapte
 
 
 
-    private void initRecyclerView(List<Menu> menuList){
-        @SuppressLint("WrongViewCast") RecyclerView recyclerView1=findViewById(R.id.menuView);
+    private void initRecyclerView(){
+        RecyclerView recyclerView1=findViewById(R.id.menuView);
         recyclerView1.setLayoutManager(new GridLayoutManager(this, 2));
-        MenuListAdapter adapter1 = new MenuListAdapter(menuList,this);
+        adapter1 = new MenuListAdapter(menuList,this);
         recyclerView1.setAdapter(adapter1);
     }
 
